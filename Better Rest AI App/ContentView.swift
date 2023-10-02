@@ -10,23 +10,27 @@ import SwiftUI
 
 struct ContentView: View {
     // MARK: Properties
+    var maxCoffeeCups = 20
     @State private var sleepAmount = 8.0
     @State private var wakeUp = defaultWakeTime
     @State private var coffeeAmount = 1
-    @State private var alertTitle = ""
-    @State private var alertMessage = ""
-    @State private var showingAlert = false
+    
+//    @State private var alertTitle = ""
+//    @State private var alertMessage = ""
+//    @State private var showingAlert = false
+    
     static var defaultWakeTime: Date {
         var components = DateComponents()
         components.hour = 7
         components.minute = 0
         return Calendar.current.date(from: components) ?? Date.now
     }
-    
+        
     // MARK: Body
     var body: some View {
         NavigationStack {
             Form() {
+                // MARK: Time selection section
                 Section() {
                     HStack() {
                         Text("\(wakeUp.formatted(date: .omitted, time: .shortened))")
@@ -38,15 +42,17 @@ struct ContentView: View {
                     Text("When do you want to wake up?")
                 }
                 
+                // MARK: Sleep hour selection section
                 Section() {
                     Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
                 } header: {
                     Text("Desired amount of sleep")
                 }
                 
+                // MARK: Cups selection section
                 Section() {
                     Picker("Cups count", selection: $coffeeAmount) {
-                        ForEach(1..<21) {
+                        ForEach(1..<maxCoffeeCups+1) {
                             Text("\($0) cups")
                         }
                     }
@@ -55,24 +61,38 @@ struct ContentView: View {
                 } header: {
                     Text("Daily coffee intake")
                 }
+                
+                // MARK: Final output section
+                Section {
+                    HStack {
+                        Text("Your ideal bedtime is")
+                        Spacer()
+                        Text(calculateBedtime())
+                            .bold()
+                            .foregroundStyle(Color.red)
+                    }
+                } header: {
+                    Text("Final Output")
+                }
             }
 
 
             .navigationTitle("Better Rest")
-            .toolbar {
-                Button("Calculate", action: calculateBetime)
-            }
-            .alert(alertTitle, isPresented: $showingAlert) {
-                Button("OK") {
-                    
-                }
-            } message: {
-                Text(alertMessage)
-            }
+            
+//            .toolbar {
+//                Button("Calculate", action: calculateBedtime)
+//            }
+//            .alert(alertTitle, isPresented: $showingAlert) {
+//                Button("OK") {
+//                    
+//                }
+//            } message: {
+//                Text(alertMessage)
+//            }
         }
     }
     
-    func calculateBetime() {
+    func calculateBedtime() -> String {
         do {
             let config = MLModelConfiguration()
             let model = try Sleep_Calculator_Model(configuration: config)
@@ -84,16 +104,17 @@ struct ContentView: View {
             
             let sleepTime = wakeUp - prediction.actualSleep
             
-            alertTitle = "Your ideal bedtime is"
-            alertMessage = sleepTime.formatted(date: .omitted, time: .shortened)
-            
+//            alertTitle = "Your ideal bedtime is"
+//            alertMessage = sleepTime.formatted(date: .omitted, time: .shortened)
+            return sleepTime.formatted(date: .omitted, time: .shortened)
         } catch {
-            alertTitle = "Error"
-            alertMessage = "Sorry, there was problem to calculate your bedtime"
+//            alertTitle = "Error"
+//            alertMessage = "Sorry, there was problem to calculate your bedtime"
             print("Error while getting ml model is :: \(error.localizedDescription)")
+            return "Sorry, there was problem to calculate your bedtime"
         }
         
-        showingAlert = true
+//        showingAlert = true
     }
 }
 
