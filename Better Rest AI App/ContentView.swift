@@ -11,33 +11,51 @@ import SwiftUI
 struct ContentView: View {
     // MARK: Properties
     @State private var sleepAmount = 8.0
-    @State private var wakeUp = Date.now
+    @State private var wakeUp = defaultWakeTime
     @State private var coffeeAmount = 1
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var showingAlert = false
+    static var defaultWakeTime: Date {
+        var components = DateComponents()
+        components.hour = 7
+        components.minute = 0
+        return Calendar.current.date(from: components) ?? Date.now
+    }
     
     // MARK: Body
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
-                Text("When do you want to wake up?")
-                    .font(.headline)
+            Form() {
+                Section() {
+                    HStack() {
+                        Text("\(wakeUp.formatted(date: .omitted, time: .shortened))")
+                        Spacer()
+                        DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
+                            .labelsHidden()
+                    }
+                } header: {
+                    Text("When do you want to wake up?")
+                }
                 
-                DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
-                    .labelsHidden()
+                Section() {
+                    Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
+                } header: {
+                    Text("Desired amount of sleep")
+                }
                 
-                Text("Desired amount of sleep")
-                    .font(.headline)
-                
-                Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
-                
-                Text("Daily coffee intake")
-                    .font(.headline)
-                
-                Stepper(coffeeAmount == 1 ? "1 cup" : "\(coffeeAmount) cups", value: $coffeeAmount, in: 1...20, step: 1)
+                Section() {
+                    Picker("Cups count", selection: $coffeeAmount) {
+                        ForEach(1..<21) {
+                            Text("\($0) cups")
+                        }
+                    }
+                    
+//                    Stepper(coffeeAmount == 1 ? "1 cup" : "\(coffeeAmount) cups", value: $coffeeAmount, in: 1...20, step: 1)
+                } header: {
+                    Text("Daily coffee intake")
+                }
             }
-            .padding()
 
 
             .navigationTitle("Better Rest")
