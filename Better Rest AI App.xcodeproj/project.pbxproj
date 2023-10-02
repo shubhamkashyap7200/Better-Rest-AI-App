@@ -11,6 +11,7 @@
 		511474762AC9FDCC00DA9F4C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511474752AC9FDCC00DA9F4C /* ContentView.swift */; };
 		511474782AC9FDCD00DA9F4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 511474772AC9FDCD00DA9F4C /* Assets.xcassets */; };
 		5114747C2AC9FDCD00DA9F4C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5114747B2AC9FDCD00DA9F4C /* Preview Assets.xcassets */; };
+		51BE5BDC2ACA884D00C25BE6 /* Sleep Calculator Model.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 51BE5BDB2ACA884D00C25BE6 /* Sleep Calculator Model.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		511474772AC9FDCD00DA9F4C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		511474792AC9FDCD00DA9F4C /* Better_Rest_AI_App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Better_Rest_AI_App.entitlements; sourceTree = "<group>"; };
 		5114747B2AC9FDCD00DA9F4C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		51BE5BDB2ACA884D00C25BE6 /* Sleep Calculator Model.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "Sleep Calculator Model.mlmodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				511474732AC9FDCC00DA9F4C /* Better_Rest_AI_AppApp.swift */,
 				511474752AC9FDCC00DA9F4C /* ContentView.swift */,
+				51BE5BDB2ACA884D00C25BE6 /* Sleep Calculator Model.mlmodel */,
 				511474772AC9FDCD00DA9F4C /* Assets.xcassets */,
 				511474792AC9FDCD00DA9F4C /* Better_Rest_AI_App.entitlements */,
 				5114747A2AC9FDCD00DA9F4C /* Preview Content */,
@@ -141,6 +144,7 @@
 			files = (
 				511474762AC9FDCC00DA9F4C /* ContentView.swift in Sources */,
 				511474742AC9FDCC00DA9F4C /* Better_Rest_AI_AppApp.swift in Sources */,
+				51BE5BDC2ACA884D00C25BE6 /* Sleep Calculator Model.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

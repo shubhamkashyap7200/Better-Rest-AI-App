@@ -5,6 +5,7 @@
 //  Created by Shubham on 02/10/23.
 //
 
+import CoreML
 import SwiftUI
 
 struct ContentView: View {
@@ -38,13 +39,14 @@ struct ContentView: View {
 
 
             .navigationTitle("Better Rest")
+            .toolbar {
+                Button("Calculate", action: calculateBetime)
+            }
         }
     }
     
-    func trivialExample() {
-        let components = Calendar.current.dateComponents([.hour, .minute], from: Date.now)
-        let hour = components.hour ?? 0
-        let minute = components.minute ?? 0
+    func calculateBetime() {
+        
     }
 }
 
@@ -61,3 +63,9 @@ struct ContentView: View {
 //            
 //            Text(Date.now, format: .dateTime.year().day().month().hour().minute())
 //            Text(Date.now.formatted(date: .long, time: .shortened))
+
+//func trivialExample() {
+//    let components = Calendar.current.dateComponents([.hour, .minute], from: Date.now)
+//    let hour = components.hour ?? 0
+//    let minute = components.minute ?? 0
+//}
