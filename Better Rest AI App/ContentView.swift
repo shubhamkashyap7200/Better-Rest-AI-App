@@ -13,6 +13,9 @@ struct ContentView: View {
     @State private var sleepAmount = 8.0
     @State private var wakeUp = Date.now
     @State private var coffeeAmount = 1
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
+    @State private var showingAlert = false
     
     // MARK: Body
     var body: some View {
@@ -33,7 +36,6 @@ struct ContentView: View {
                     .font(.headline)
                 
                 Stepper(coffeeAmount == 1 ? "1 cup" : "\(coffeeAmount) cups", value: $coffeeAmount, in: 1...20, step: 1)
-
             }
             .padding()
 
@@ -42,11 +44,38 @@ struct ContentView: View {
             .toolbar {
                 Button("Calculate", action: calculateBetime)
             }
+            .alert(alertTitle, isPresented: $showingAlert) {
+                Button("OK") {
+                    
+                }
+            } message: {
+                Text(alertMessage)
+            }
         }
     }
     
     func calculateBetime() {
+        do {
+            let config = MLModelConfiguration()
+            let model = try Sleep_Calculator_Model(configuration: config)
+            let components = Calendar.current.dateComponents([.hour, .minute], from: wakeUp)
+            let hour = (components.hour ?? 0) * 60 * 60
+            let minute = (components.minute ?? 0) * 60
+            
+            let prediction = try model.prediction(wake: Int64(hour + minute), estimatedSleep: sleepAmount, coffee: Int64(coffeeAmount))
+            
+            let sleepTime = wakeUp - prediction.actualSleep
+            
+            alertTitle = "Your ideal bedtime is"
+            alertMessage = sleepTime.formatted(date: .omitted, time: .shortened)
+            
+        } catch {
+            alertTitle = "Error"
+            alertMessage = "Sorry, there was problem to calculate your bedtime"
+            print("Error while getting ml model is :: \(error.localizedDescription)")
+        }
         
+        showingAlert = true
     }
 }
 
